@@ -1,19 +1,18 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import firebase_admin
 from firebase_admin import auth, credentials, firestore
-
-from label_detect import detect
-
+# from label_detect import detect
 from reCaptcha import ReCaptcha
+
 from config import *
 
 app = Flask(__name__)
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
-recaptcha = ReCaptcha(app)
-
 cred = credentials.Certificate(FIREBASE_CREDENTIALS)
 firebase_admin.initialize_app(cred)
+
+recaptcha = ReCaptcha(app)
 
 
 @app.route('/')
@@ -55,6 +54,9 @@ def get_input():
 def vision():
     return detect()
 
+@app.route("/payment")
+def payment():
+    return render_template("payment.html")
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8088, debug=True)
