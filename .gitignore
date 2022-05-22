@@ -1,0 +1,8 @@
+# Configuration data
+config.py
+
+# Python pycache:
+__pycache__/
+
+# Pycharm data
+/.idea

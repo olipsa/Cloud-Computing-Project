@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+
+        <meta charset="UTF-8">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+    </head>
+    <body>
+    <div class="test">{{logging}}</div>
+        <form method="POST" class="center" style="text-align: center;">
+              <div class="container">
+                <label for="email"><b>Email  </b>
+                    <input type="text" placeholder="Enter Email" name="email" required>
+                </label>
+
+                <label for="password"><b>Password</b>
+                    <input type="password" placeholder="Enter Password" name="password" required>
+                </label>
+              </div>
+            <div class="recaptcha">{{ recaptcha }}</div>
+            <label for="remember">
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+            <button input type="submit" class="button_register" style="font-family: 'Courier New', Courier, monospace; align-self: center;">SUBMIT</button>
+        </form>
+        <p>{{ message }}</p>
+    </body>
+</html>
