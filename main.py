@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect
 import firebase_admin
 from firebase_admin import auth, credentials, firestore
-# from label_detect import detect
+from label_detect import detect
 from reCaptcha import ReCaptcha
 
 from config import *
