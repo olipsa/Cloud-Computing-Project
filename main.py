@@ -49,11 +49,12 @@ def register():
 
 @app.route('/form', methods=['GET', 'POST'])
 def get_input():
-    return render_template('form.html', logging="log", message="message")
+    return render_template('form.html')
 
 @app.route('/analyse', methods=['GET', 'POST'])
 def vision():
-    return detect()
+    message = detect()
+    return render_template('analyse.html',message=message)
 
 
 if __name__ == '__main__':
