@@ -1,0 +1,26 @@
+body  {
+    background-image: url('/static/img/background.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.center {
+
+    align-self: auto;
+    margin:auto;
+    border: 0.5px solid #1F1300;
+    padding: 40px;
+    width: 50%;
+    height: 40%;
+    background-color: rgba(242,227,188, 0.8);
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgba(242,227,188, 0.8);
+    border: 0.5px solid #1F1300;
+    padding: 40px;
+
+}
