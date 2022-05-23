@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Formular</title>
+        <title>Form</title>
 
         <meta charset="UTF-8">
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/form.css') }}">
     </head>
     <body>
-    <div class="test">{{logging}}</div>
+        <div class="test">{{logging}}</div>
         <form method="POST" class="center" style="text-align: center;">
-              <div class="container">
-                <label for="company_name"><b>Company name </b>
-                    <input type="text" placeholder="company_name" name="company_name" required>
-                </label>
+            <h1 class="title">Generate your company's meme</h1>
+            <div class="container">
+                <label for="company_name"><b>Company name <span class="asterisk">*</span></b>
+                <input class ="form-input" type="text" placeholder="company_name" name="company_name" required>
+            </label>
 
-                <label for="meme_vibe"><b>Meme vibe </b>
-                    <input type="text" placeholder="meme_vibe" name="meme_vibe" required>
-                </label>
+            <label for="meme_vibe"><b>Meme vibe <span class="asterisk">*</span></b>
+                <input class ="form-input" type="text" placeholder="meme_vibe" name="meme_vibe" required>
+            </label>
 
-                <label for="meme_preferences"><b>Meme preferences </b>
-                    <input type="text" placeholder="meme_preferences" name="meme_preferences" required>
-                </label>
+            <label for="meme_preferences"><b>Meme preferences <span class="asterisk">*</span></b>
+                <input class ="form-input" type="text" placeholder="meme_preferences" name="meme_preferences" required>
+            </label>
 
-                <label for="meme_budget"><b>Meme budget</b>
-                    <input type="text" placeholder="meme_budget" name="meme_budget">
-                </label>
+            <label for="meme_budget"><b>Meme budget</b>
+                <input class ="form-input" type="text" placeholder="meme_budget" name="meme_budget">
+            </label>
 
-                <figure class="autograph-image-container">
-                    <p>Optional image</p>
-                    <img id="autograph-image" class="autograph-image" src="../static/img/upload.png" alt="Image failed loading" >
-                    <input class="autograph-image-select" name ="photo" type="file" accept="image/*" onchange="document.getElementById('autograph-image').src=window.URL.createObjectURL(this.files[0])">
-                </figure>
+            <label for="optional_text"><b>Optional text on meme</b>
+                <input class ="form-input" type="text" placeholder="optional_text" name="optional_text">
+            </label>
 
-                <label for="optional_text"><b>Optional text on meme</b>
-                    <input type="text" placeholder="optional_text" name="optional_text">
-                </label>
+            <figure class="choose-image-container">
+                <img id="chosen-image" class="chosen-image" src="../static/img/upload.png" alt="Image failed loading" >
+                <input class="image-select" name ="photo" type="file" accept="image/*" onchange="document.getElementById('autograph-image').src=window.URL.createObjectURL(this.files[0])">
+            </figure>
 
-              </div>
-            <button input type="submit" class="button_form" style="font-family: 'Courier New', Courier, monospace; align-self: center;" onclick="alert('Thank your for using our app!')">SUBMIT</button>
+
+            </div>
+            <button input type="submit" class="button_form" style="font-family: 'Courier New', Courier, monospace; align-self: center;">SUBMIT</button>
         </form>
         <p>{{ message }}</p>
     </body>

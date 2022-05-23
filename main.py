@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect
+import http
+
+from flask import Flask, render_template, request, redirect, url_for
 import firebase_admin
-from firebase_admin import auth, credentials, firestore
+from firebase_admin import auth, credentials
 from label_detect import detect
 from reCaptcha import ReCaptcha
 
@@ -36,6 +38,7 @@ def register():
             email = request.form['email']
             try:
                 auth.create_user(email=email, password=password)
+                return redirect(url_for('get_form_input'))
             except auth.EmailAlreadyExistsError:
                 message = 'Email already registered, try logging in.'
             except ValueError:
@@ -47,17 +50,23 @@ def register():
 
 
 @app.route('/form', methods=['GET', 'POST'])
-def get_input():
-    return render_template('form.html')
+def get_form_input():
+    if request.method == 'POST':
+        return make_payment()
+    else:
+        return render_template('form.html')
+
 
 @app.route('/analyse', methods=['GET', 'POST'])
 def vision():
     message = detect()
-    return render_template('analyse.html',message=message)
+    return render_template('analyse.html', message=message)
+
 
 @app.route("/payment")
-def payment():
+def make_payment():
     return render_template("payment.html")
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8088, debug=True)

@@ -9,21 +9,23 @@
     <body>
     <div class="test">{{logging}}</div>
         <form method="POST" class="center" style="text-align: center;">
-              <div class="container">
+            <h1 class="title">Create New Account</h1>
+            <p>{{ message }}</p>
+            <div class="container">
                 <label for="email"><b>Email  </b>
-                    <input type="text" placeholder="Enter Email" name="email" required>
+                    <input class ="form-input" type="text" placeholder="Enter Email" name="email" required>
                 </label>
 
                 <label for="password"><b>Password</b>
-                    <input type="password" placeholder="Enter Password" name="password" required>
+                    <input class ="form-input" type="password" placeholder="Enter Password" name="password" required>
                 </label>
-              </div>
+            </div>
             <div class="recaptcha">{{ recaptcha }}</div>
-            <label for="remember">
+            <label for="remember" class="remember-me">
                   <input type="checkbox" checked="checked" name="remember"> Remember me
                 </label>
             <button input type="submit" class="button_register" style="font-family: 'Courier New', Courier, monospace; align-self: center;">SUBMIT</button>
         </form>
-        <p>{{ message }}</p>
+
     </body>
 </html>
