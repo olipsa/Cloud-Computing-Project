@@ -80,8 +80,8 @@ def make_payment():
 @app.route("/get_meme")
 def get_meme():
     text = session['text']
-    # response = requests.get(f"http://40.87.145.211:40404/memes?string='{text}'")
-    # print(response.json())
+    response = requests.get(f"http://40.87.145.211:40404/memes?string='{text}'")
+    print(response.json())
     service = sendEmail.get_service()
     text = "Here is your personalized meme"
     print(session['email'])
