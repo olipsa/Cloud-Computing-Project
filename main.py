@@ -1,16 +1,19 @@
-import http
-
-from flask import Flask, render_template, request, redirect, url_for
+import requests
+from flask import Flask, render_template, request, redirect, url_for, session
 import firebase_admin
+import stripe
 from firebase_admin import auth, credentials
+
+from functions import sendEmail
 from label_detect import detect
 from reCaptcha import ReCaptcha
-
 from config import *
 
 app = Flask(__name__)
 app.config['RECAPTCHA_SITE_KEY'] = RECAPTCHA_SITE_KEY
 app.config['RECAPTCHA_SECRET_KEY'] = RECAPTCHA_SECRET_KEY
+app.secret_key = FLASK_SECRET
+stripe.api_key = STRIPE
 cred = credentials.Certificate(FIREBASE_CREDENTIALS)
 firebase_admin.initialize_app(cred)
 
@@ -38,6 +41,7 @@ def register():
             email = request.form['email']
             try:
                 auth.create_user(email=email, password=password)
+                session['email'] = email
                 return redirect(url_for('get_form_input'))
             except auth.EmailAlreadyExistsError:
                 message = 'Email already registered, try logging in.'
@@ -52,6 +56,10 @@ def register():
 @app.route('/form', methods=['GET', 'POST'])
 def get_form_input():
     if request.method == 'POST':
+        session['company'] = request.form['company_name']
+        session['vibe'] = request.form['meme_vibe']
+        session['text'] = request.form['optional_text']
+        print(session['text'])
         return make_payment()
     else:
         return render_template('form.html')
@@ -65,7 +73,22 @@ def vision():
 
 @app.route("/payment")
 def make_payment():
+    get_meme()
     return render_template("payment.html")
+
+
+@app.route("/get_meme")
+def get_meme():
+    text = session['text']
+    # response = requests.get(f"http://40.87.145.211:40404/memes?string='{text}'")
+    # print(response.json())
+    service = sendEmail.get_service()
+    text = "Here is your personalized meme"
+    print(session['email'])
+    gmail_message = sendEmail.create_message('cc.homework.3@gmail.com', session['email'], 'Your personalized meme', text
+                                             , 'D:\\Documents\\Facultate\\An3Sem2\\CC\\Teme\\Cloud-Computing-Project'
+                                               '\\meme.jpg')
+    sendEmail.send_message(service, 'me', gmail_message)
 
 
 if __name__ == '__main__':

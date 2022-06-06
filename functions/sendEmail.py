@@ -1,4 +1,10 @@
+from __future__ import print_function
+
 import base64
+import mimetypes
+import os.path
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -7,9 +13,12 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from config import *
 
+import base64
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-# If modifying these scopes, delete the file token.json.
 SCOPES = ['https://mail.google.com/']
 
 
@@ -46,9 +55,6 @@ def send_message(service, user_id, message):
     try:
         message = service.users().messages().send(userId=user_id,
                                                   body=message).execute()
-
-        # print('Message Id: {}'.format(message['id']))
-
         return message
     except Exception as e:
         print('An error occurred: {}'.format(e))
@@ -60,6 +66,7 @@ def create_message(
         to,
         subject,
         message_text,
+        attachment
 ):
     message = MIMEMultipart()
     message['to'] = to
@@ -68,7 +75,21 @@ def create_message(
 
     msg = MIMEText(message_text)
     message.attach(msg)
+    if attachment is not None:
+        content_type, encoding = mimetypes.guess_type(attachment)
+        main_type, sub_type = content_type.split('/', 1)
+        file_name = os.path.basename(attachment)
+        f = open(attachment, 'rb')
+        myfile = MIMEBase(main_type, sub_type)
+        myfile.set_payload(f.read())
+        myfile.add_header('Content-Disposition', 'attachment', filename=file_name)
+        encoders.encode_base64(myfile)
 
-    raw_message = \
-        base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
-    return {'raw': raw_message.decode('utf-8')}
+        f.close()
+        message.attach(myfile)
+        raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+    else:
+        raw_message = \
+            base64.urlsafe_b64encode(message.as_string().encode('utf-8')).decode()
+    return {'raw': raw_message}
