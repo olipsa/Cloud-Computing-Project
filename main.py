@@ -1,4 +1,3 @@
-import requests
 from flask import Flask, render_template, request, redirect, url_for, session
 import firebase_admin
 import stripe
@@ -77,17 +76,15 @@ def make_payment():
     return render_template("payment.html")
 
 
-@app.route("/get_meme")
 def get_meme():
     text = session['text']
-    response = requests.get(f"http://40.87.145.211:40404/memes?string='{text}'")
-    print(response.json())
+    # response = requests.get(f"http://40.87.145.211:40404/memes?string='{text}'")
+    # print(response.json())
     service = sendEmail.get_service()
     text = "Here is your personalized meme"
-    print(session['email'])
+    # # print(session['email'])
     gmail_message = sendEmail.create_message('cc.homework.3@gmail.com', session['email'], 'Your personalized meme', text
-                                             , 'D:\\Documents\\Facultate\\An3Sem2\\CC\\Teme\\Cloud-Computing-Project'
-                                               '\\meme.jpg')
+                                             , 'meme.jpg')
     sendEmail.send_message(service, 'me', gmail_message)
 
 

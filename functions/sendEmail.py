@@ -76,6 +76,9 @@ def create_message(
     msg = MIMEText(message_text)
     message.attach(msg)
     if attachment is not None:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        os.chdir(os.path.abspath(os.path.join(dir_path, os.pardir)))
+        print(os.getcwd())
         content_type, encoding = mimetypes.guess_type(attachment)
         main_type, sub_type = content_type.split('/', 1)
         file_name = os.path.basename(attachment)
